@@ -1,11 +1,9 @@
 {
   "manifest_version": 3,
   "name": "Doomscroll Stopper",
-  "version": "1.0.0",
-  "description": "Set daily content limits for social feeds and stop endless scrolling when your limit is reached.",
-  "permissions": [
-    "storage"
-  ],
+  "version": "1.1.0",
+  "description": "Set daily social-feed limits with stable item counting, SPA-aware tracking and controlled emergency breaks.",
+  "permissions": ["storage"],
   "host_permissions": [
     "https://x.com/*",
     "https://twitter.com/*",
@@ -16,25 +14,22 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Doomscroll Stopper"
+    "default_title": "Doomscroll Stopper",
+    "default_icon": {"16": "icon16.png", "48": "icon48.png"}
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "https://x.com/*",
-        "https://twitter.com/*",
-        "https://www.reddit.com/*",
-        "https://www.youtube.com/*",
-        "https://www.instagram.com/*",
-        "https://www.facebook.com/*"
-      ],
-      "js": [
-        "content.js"
-      ],
-      "css": [
-        "styles.css"
-      ],
-      "run_at": "document_idle"
-    }
-  ]
+  "icons": {"16": "icon16.png", "48": "icon48.png", "128": "icon128.png"},
+  "content_scripts": [{
+    "matches": [
+      "https://x.com/*",
+      "https://twitter.com/*",
+      "https://www.reddit.com/*",
+      "https://www.youtube.com/*",
+      "https://www.instagram.com/*",
+      "https://www.facebook.com/*"
+    ],
+    "js": ["content.js"],
+    "css": ["styles.css"],
+    "run_at": "document_idle"
+  }],
+  "minimum_chrome_version": "111"
 }

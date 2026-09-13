@@ -1,62 +1,13 @@
 #dss-counter-badge {
-  position: fixed !important;
-  right: 16px !important;
-  bottom: 16px !important;
-  z-index: 2147483646 !important;
-  padding: 8px 11px !important;
-  border-radius: 999px !important;
-  background: rgba(17, 24, 39, .92) !important;
-  color: white !important;
-  font: 700 12px/1 Arial, sans-serif !important;
-  box-shadow: 0 4px 18px rgba(0,0,0,.25) !important;
-  pointer-events: none !important;
+  position: fixed !important; right: 16px !important; bottom: 16px !important; z-index: 2147483646 !important;
+  padding: 8px 11px !important; border-radius: 999px !important; background: rgba(17, 24, 39, .92) !important;
+  color: white !important; font: 700 12px/1 Arial, sans-serif !important; box-shadow: 0 4px 18px rgba(0,0,0,.25) !important; pointer-events: none !important;
 }
-
-.dss-feed-blocked {
-  visibility: hidden !important;
-}
-
-#dss-limit-overlay {
-  position: fixed !important;
-  inset: 0 !important;
-  z-index: 2147483647 !important;
-  display: grid !important;
-  place-items: center !important;
-  background: rgba(10, 15, 25, .86) !important;
-  backdrop-filter: blur(8px) !important;
-}
-
-#dss-limit-overlay .dss-card {
-  width: min(440px, calc(100vw - 32px)) !important;
-  padding: 24px !important;
-  border-radius: 18px !important;
-  background: #111827 !important;
-  color: #f9fafb !important;
-  font-family: Arial, sans-serif !important;
-  box-shadow: 0 20px 60px rgba(0,0,0,.4) !important;
-}
-
-#dss-limit-overlay h2 {
-  margin: 0 0 12px !important;
-  font-size: 24px !important;
-}
-
-#dss-limit-overlay p {
-  font-size: 14px !important;
-  line-height: 1.5 !important;
-}
-
-#dss-limit-overlay .dss-muted {
-  color: #9ca3af !important;
-}
-
-#dss-limit-overlay button {
-  margin-top: 8px !important;
-  padding: 10px 14px !important;
-  border: 0 !important;
-  border-radius: 999px !important;
-  background: #2563eb !important;
-  color: white !important;
-  font-weight: 700 !important;
-  cursor: pointer !important;
-}
+.dss-feed-blocked { visibility: hidden !important; }
+#dss-limit-overlay { position: fixed !important; inset: 0 !important; z-index: 2147483647 !important; display: grid !important; place-items: center !important; background: rgba(10, 15, 25, .86) !important; backdrop-filter: blur(8px) !important; }
+#dss-limit-overlay .dss-card { width: min(440px, calc(100vw - 32px)) !important; padding: 24px !important; border-radius: 18px !important; background: #111827 !important; color: #f9fafb !important; font-family: Arial, sans-serif !important; box-shadow: 0 20px 60px rgba(0,0,0,.4) !important; }
+#dss-limit-overlay h2 { margin: 0 0 12px !important; font-size: 24px !important; }
+#dss-limit-overlay p { font-size: 14px !important; line-height: 1.5 !important; }
+#dss-limit-overlay .dss-muted { color: #9ca3af !important; }
+#dss-limit-overlay button { margin-top: 8px !important; padding: 10px 14px !important; border: 0 !important; border-radius: 999px !important; background: #2563eb !important; color: white !important; font-weight: 700 !important; cursor: pointer !important; }
+#dss-limit-overlay button:disabled { opacity: .55 !important; cursor: default !important; }

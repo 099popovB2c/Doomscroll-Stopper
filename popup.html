@@ -8,50 +8,35 @@
 </head>
 <body>
   <main>
-    <h1>Doomscroll Stopper</h1>
-    <p class="subtitle">Set a daily feed limit before the feed sets your day.</p>
+    <div class="title-row">
+      <div>
+        <h1>Doomscroll Stopper</h1>
+        <p class="subtitle">Set a daily feed limit before the feed sets your day.</p>
+      </div>
+      <span class="version">v1.1</span>
+    </div>
 
     <label class="master">
-      <span>
-        <strong>Enable protection</strong>
-        <small>Turn daily feed limits on or off.</small>
-      </span>
+      <span><strong>Enable protection</strong><small>Turn daily feed limits on or off.</small></span>
       <input id="enabled" type="checkbox">
     </label>
 
     <section>
-      <label class="limit-row">
-        <span><strong>X</strong><small>Posts per day</small></span>
-        <input id="xLimit" type="number" min="1" max="5000" value="100">
-      </label>
-
-      <label class="limit-row">
-        <span><strong>Reddit</strong><small>Posts per day</small></span>
-        <input id="redditLimit" type="number" min="1" max="5000" value="80">
-      </label>
-
-      <label class="limit-row">
-        <span><strong>YouTube Shorts</strong><small>Shorts per day</small></span>
-        <input id="youtubeShortsLimit" type="number" min="1" max="5000" value="30">
-      </label>
-
-      <label class="limit-row">
-        <span><strong>Instagram</strong><small>Feed items per day</small></span>
-        <input id="instagramLimit" type="number" min="1" max="5000" value="80">
-      </label>
-
-      <label class="limit-row">
-        <span><strong>Facebook</strong><small>Feed items per day</small></span>
-        <input id="facebookLimit" type="number" min="1" max="5000" value="80">
-      </label>
+      <label class="limit-row"><span><strong>X</strong><small>Posts per day</small></span><input id="xLimit" type="number" min="1" max="5000" value="100"></label>
+      <label class="limit-row"><span><strong>Reddit</strong><small>Posts per day</small></span><input id="redditLimit" type="number" min="1" max="5000" value="80"></label>
+      <label class="limit-row"><span><strong>YouTube Shorts</strong><small>Shorts per day</small></span><input id="youtubeShortsLimit" type="number" min="1" max="5000" value="30"></label>
+      <label class="limit-row"><span><strong>Instagram</strong><small>Feed items per day</small></span><input id="instagramLimit" type="number" min="1" max="5000" value="80"></label>
+      <label class="limit-row"><span><strong>Facebook</strong><small>Feed items per day</small></span><input id="facebookLimit" type="number" min="1" max="5000" value="80"></label>
     </section>
 
     <label class="master secondary">
-      <span>
-        <strong>5-minute emergency break</strong>
-        <small>Show a one-click temporary override after the daily limit is reached.</small>
-      </span>
+      <span><strong>5-minute emergency break</strong><small>Temporary access after a limit is reached.</small></span>
       <input id="allowFiveMinuteBreak" type="checkbox">
+    </label>
+
+    <label class="break-row" id="breakLimitRow">
+      <span><strong>Emergency breaks/day</strong><small>Prevents endlessly repeating the override.</small></span>
+      <input id="maxBreaksPerDay" type="number" min="1" max="5" value="1">
     </label>
 
     <div class="actions">
@@ -60,10 +45,8 @@
     </div>
 
     <button id="resetToday" class="reset">Reset today's counters</button>
-
     <p id="status" class="status">Settings save automatically.</p>
   </main>
   <script src="popup.js"></script>
 </body>
 </html>
-

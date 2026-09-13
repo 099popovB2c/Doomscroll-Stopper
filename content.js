@@ -1,320 +1,375 @@
-(() => {
-  if (window.__doomscrollStopperLoaded) return;
-  window.__doomscrollStopperLoaded = true;
+ˆ[œİYÜ˜[S[Z]ˆˆ˜XÙX›ÛÚÓ[Z]ˆˆ[İÑš]™SZ[]Pœ™XZÎˆYKˆX^œ™XZÜÔ\‘^NˆBˆNÂ‚ˆÛÛœİÒUWĞÓÓ‘’QÈHÂˆˆÂˆX™[ˆ–‹ˆ[Z]Ù^Nˆ[Z]‹ˆÙ[XİÜœÎˆÉØ\XÛVÙ]K]\İYHÙY]—I×BˆKˆ™Y]ˆÂˆX™[ˆ”™Y]‹ˆ[Z]Ù^Nˆœ™Y][Z]‹ˆÙ[XİÜœÎˆÂˆœÚ™Y]\Üİ‹ˆ	Ø\XÛVÙ]K]\İYHœÜİXÛÛZ[™\ˆ—IËˆ	Ù]–Ù]K]\İYHœÜİXÛÛZ[™\ˆ—IÂˆBˆKˆ[İ]X™TÚÜÎˆÂˆX™[ˆ–[İUX™HÚÜÈ‹ˆ[Z]Ù^Nˆ[İ]X™TÚÜÓ[Z]‹ˆÙ[XİÜœÎˆÈ]\™Y[]šY[Ë\™[™\™\ˆ—BˆKˆ[œİYÜ˜[NˆÂˆX™[ˆ’[œİYÜ˜[H‹ˆ[Z]Ù^Nˆš[œİYÜ˜[S[Z]‹ˆÙ[XİÜœÎˆÈ›XZ[ˆ\XÛH—BˆKˆ˜XÙX›ÛÚÎˆÂˆX™[ˆ‘˜XÙX›ÛÚÈ‹ˆ[Z]Ù^Nˆ™˜XÙX›ÛÚÓ[Z]‹ˆÙ[XİÜœÎˆÂˆ	Ù]–Ü›ÛOH™™YY—H]–Ü›ÛOH˜\XÛH—IËˆ	Ù]–Ü›ÛOH˜\XÛH—IÂˆBˆBˆNÂ‚ˆ]Ù][™ÜÈHÈ‹‹‘QUSÈNÂˆ]Ú]RÙ^HH]XİÚ]J
+NÂˆ]ØœÙ\™\ˆH[Âˆ][\œÙXİ[Û“ØœÙ\™\ˆH[Âˆ]›ØÚÙYH˜[ÙNÂˆ]]]][Û•[Y\ˆH[Âˆ][Z][Y\ˆH[Âˆ]İ]U™\œÚ[ÛˆHÂˆ]ÙY[‘š[™Ù\œš[ÈH™]ÈÙ]
 
-  const DEFAULTS = {
-    enabled: true,
-    xLimit: 100,
-    redditLimit: 80,
-    youtubeShortsLimit: 30,
-    instagramLimit: 80,
-    facebookLimit: 80,
-    allowFiveMinuteBreak: true
-  };
+NÂˆÛÛœİØœÙ\™Y›Ù\ÈH™]ÈÙXZÔÙ]
 
-  const SITE_CONFIG = {
-    x: {
-      label: "X",
-      limitKey: "xLimit",
-      selectors: ['article[data-testid="tweet"]']
-    },
-    reddit: {
-      label: "Reddit",
-      limitKey: "redditLimit",
-      selectors: [
-        'shreddit-post',
-        'article[data-testid="post-container"]',
-        'div[data-testid="post-container"]'
-      ]
-    },
-    youtubeShorts: {
-      label: "YouTube Shorts",
-      limitKey: "youtubeShortsLimit",
-      selectors: [
-        'ytd-reel-video-renderer',
-        'ytd-shorts'
-      ]
-    },
-    instagram: {
-      label: "Instagram",
-      limitKey: "instagramLimit",
-      selectors: ['main article']
-    },
-    facebook: {
-      label: "Facebook",
-      limitKey: "facebookLimit",
-      selectors: [
-        'div[role="feed"] div[role="article"]',
-        'div[role="article"]'
-      ]
-    }
-  };
+NÂˆÛÛœİ˜[˜XÚÔÙY[“›Ù\ÈH™]ÈÙXZÔÙ]
 
-  let settings = { ...DEFAULTS };
-  let siteKey = detectSite();
-  let observer = null;
-  let intersectionObserver = null;
-  let blocked = false;
-  const seen = new WeakSet();
+NÂˆ]Ûİ[]Y]YHH›ÛZ\ÙKœ™\ÛÛ™J
+NÂ‚ˆ[˜İ[Ûˆ]XİÚ]J
+HÂˆÛÛœİÜİHØØ][Û‹šÜİ˜[YNÂˆÛÛœİ]HØØ][Û‹œ]˜[YNÂ‚ˆYˆ
+ÜİOOH˜ÛÛHˆÜİOOHÚ]\‹˜ÛÛHŠH™]\›ˆÂˆYˆ
+ÜİOOHİİËœ™Y]˜ÛÛHŠH™]\›ˆœ™Y]ÂˆYˆ
+ÜİOOHİİË[İ]X™K˜ÛÛHˆ	‰ˆ]œİ\ÕÚ]
+‹ÜÚÜÈŠJH™]\›ˆ[İ]X™TÚÜÈÂˆYˆ
+ÜİOOHİİËš[œİYÜ˜[K˜ÛÛHŠH™]\›ˆš[œİYÜ˜[HÂˆYˆ
+ÜİOOHİİË™˜XÙX›ÛÚË˜ÛÛHŠH™]\›ˆ™˜XÙX›ÛÚÈÂˆ™]\›ˆ[ÂˆB‚ˆ[˜İ[ÛˆÙ^RÙ^J
+HÂˆÛÛœİH™]È]J
+NÂˆÛÛœİHH™Ù][YX\Š
+NÂˆÛÛœİHHİš[™Ê™Ù][Û
 
-  function detectSite() {
-    const host = location.hostname;
-    const path = location.pathname;
+H
+ÈJKœYİ\
+‹ŒŠNÂˆÛÛœİ^HHİš[™Ê™Ù]]J
+JKœYİ\
+‹ŒŠNÂˆ™]\›ˆ	Ş_KIÛ_KIÙ^_XÂˆB‚ˆ[˜İ[ÛˆİÜ˜YÙRÙ^\ÊÙ^HHÚ]RÙ^JHÂˆ™]\›ˆÙ^BˆÈÂˆ]NˆÜ×ÉÚÙ^_WÙ]XˆÛİ[ˆÜ×ÉÚÙ^_WØÛİ[ˆÛ›ÛŞ™U[[ˆÜ×ÉÚÙ^_WÜÛ›ÛŞ™U[[ˆœ™XZÜÕ\ÙYˆÜ×ÉÚÙ^_WØœ™XZÜÕ\ÙYˆÙY[ˆÜ×ÉÚÙ^_WÜÙY[‘š[™Ù\œš[ØˆBˆˆ[ÂˆB‚ˆ\Ş[˜È[˜İ[Ûˆ[œİ\™UÙ^JÙ^HHÚ]RÙ^JHÂˆYˆ
+ZÙ^JH™]\›ÂˆÛÛœİÙ^\ÈHİÜ˜YÙRÙ^\ÊÙ^JNÂˆÛÛœİİÜ™YH]ØZ]Ú›ÛYKœİÜ˜YÙK›ØØ[™Ù]
+ÂˆÙ^\Ë™]KˆÙ^\Ë˜Ûİ[ˆÙ^\ËœÛ›ÛŞ™U[[ˆÙ^\Ë˜œ™XZÜÕ\ÙYˆÙ^\ËœÙY[‚ˆJNÂ‚ˆYˆ
+İÜ™YÚÙ^\Ë™]WHOOHÙ^RÙ^J
+JHÂˆ]ØZ]Ú›ÛYKœİÜ˜YÙK›ØØ[œÙ]
+ÂˆÚÙ^\Ë™]WNˆÙ^RÙ^J
+KˆÚÙ^\Ë˜Ûİ[NˆˆÚÙ^\ËœÛ›ÛŞ™U[[NˆˆÚÙ^\Ë˜œ™XZÜÕ\ÙYNˆˆÚÙ^\ËœÙY[—Nˆ×BˆJNÂˆBˆB‚ˆ\Ş[˜È[˜İ[ÛˆÙ]Ûİ[
 
-    if (host === "x.com" || host === "twitter.com") return "x";
-    if (host === "www.reddit.com") return "reddit";
-    if (host === "www.youtube.com" && path.startsWith("/shorts")) return "youtubeShorts";
-    if (host === "www.instagram.com") return "instagram";
-    if (host === "www.facebook.com") return "facebook";
-    return null;
-  }
+HÂˆYˆ
+\Ú]RÙ^JH™]\›ˆÂˆ]ØZ][œİ\™UÙ^J
+NÂˆÛÛœİÙ^\ÈHİÜ˜YÙRÙ^\Ê
+NÂˆÛÛœİİÜ™YH]ØZ]Ú›ÛYKœİÜ˜YÙK›ØØ[™Ù]
+ÚÙ^\Ë˜Ûİ[JNÂˆ™]\›ˆ[X™\ŠİÜ™YÚÙ^\Ë˜Ûİ[H
+NÂˆB‚ˆ\Ş[˜È[˜İ[ÛˆØYÙY[‘š[™Ù\œš[Ê™\œÚ[ÛˆHİ]U™\œÚ[ÛŠHÂˆYˆ
+\Ú]RÙ^JHÂˆÙY[‘š[™Ù\œš[ÈH™]ÈÙ]
 
-  function todayKey() {
-    const d = new Date();
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, "0");
-    const day = String(d.getDate()).padStart(2, "0");
-    return `${y}-${m}-${day}`;
-  }
+NÂˆ™]\›ÂˆB‚ˆ]ØZ][œİ\™UÙ^J
+NÂˆÛÛœİÙ^\ÈHİÜ˜YÙRÙ^\Ê
+NÂˆÛÛœİİÜ™YH]ØZ]Ú›ÛYKœİÜ˜YÙK›ØØ[™Ù]
+ÚÙ^\ËœÙY[—JNÂ‚ˆYˆ
+™\œÚ[ÛˆOOHİ]U™\œÚ[ÛŠH™]\›Â‚ˆÛÛœİ˜[Y\ÈH\œ˜^Kš\Ğ\œ˜^JİÜ™YÚÙ^\ËœÙY[—JHÈİÜ™YÚÙ^\ËœÙY[—Hˆ×NÂˆÙY[‘š[™Ù\œš[ÈH™]ÈÙ]
+˜[Y\ÊNÂˆB‚ˆ\Ş[˜È[˜İ[Ûˆ\œÚ\İÙY[‘š[™Ù\œš[Ê
+HÂˆYˆ
+\Ú]RÙ^JH™]\›ÂˆÛÛœİÙ^\ÈHİÜ˜YÙRÙ^\Ê
+NÂˆÛÛœİ˜[Y\ÈHË‹‹œÙY[‘š[™Ù\œš[×KœÛXÙJLL
+NÂˆ]ØZ]Ú›ÛYKœİÜ˜YÙK›ØØ[œÙ]
+ÈÚÙ^\ËœÙY[—Nˆ˜[Y\ÈJNÂˆB‚ˆ\Ş[˜È[˜İ[Ûˆ[˜Ü™[Y[Ûİ[
 
-  function storageKeys() {
-    return siteKey
-      ? {
-          date: `dss_${siteKey}_date`,
-          count: `dss_${siteKey}_count`,
-          snoozeUntil: `dss_${siteKey}_snoozeUntil`
-        }
-      : null;
-  }
+HÂˆÛÛœİÙ^\ÈHİÜ˜YÙRÙ^\Ê
+NÂˆÛÛœİÛİ[H]ØZ]Ù]Ûİ[
 
-  async function getCount() {
-    if (!siteKey) return 0;
-    const keys = storageKeys();
-    const stored = await chrome.storage.local.get([
-      keys.date,
-      keys.count,
-      keys.snoozeUntil
-    ]);
+NÂˆÛÛœİ™^HÛİ[
+ÈNÂ‚ˆ]ØZ]Ú›ÛYKœİÜ˜YÙK›ØØ[œÙ]
+ÂˆÚÙ^\Ë™]WNˆÙ^RÙ^J
+KˆÚÙ^\Ë˜Ûİ[Nˆ™^ˆJNÂ‚ˆ\]P˜YÙJ™^
+NÂˆ]ØZ]ÚXÚÓ[Z]
+™^
+NÂˆB‚ˆ\Ş[˜È[˜İ[Ûˆ\ÔÛ›ÛŞ™Y
 
-    if (stored[keys.date] !== todayKey()) {
-      await chrome.storage.local.set({
-        [keys.date]: todayKey(),
-        [keys.count]: 0,
-        [keys.snoozeUntil]: 0
-      });
-      return 0;
-    }
+HÂˆYˆ
+\Ú]RÙ^JH™]\›ˆ˜[ÙNÂˆ]ØZ][œİ\™UÙ^J
+NÂˆÛÛœİÙ^\ÈHİÜ˜YÙRÙ^\Ê
+NÂˆÛÛœİİÜ™YH]ØZ]Ú›ÛYKœİÜ˜YÙK›ØØ[™Ù]
+ÚÙ^\ËœÛ›ÛŞ™U[[JNÂˆ™]\›ˆ[X™\ŠİÜ™YÚÙ^\ËœÛ›ÛŞ™U[[H
+Hˆ]K››İÊ
+NÂˆB‚ˆ\Ş[˜È[˜İ[Ûˆœ™XZÜÕ\ÙY
 
-    return Number(stored[keys.count] || 0);
-  }
+HÂˆYˆ
+\Ú]RÙ^JH™]\›ˆÂˆ]ØZ][œİ\™UÙ^J
+NÂˆÛÛœİÙ^\ÈHİÜ˜YÙRÙ^\Ê
+NÂˆÛÛœİİÜ™YH]ØZ]Ú›ÛYKœİÜ˜YÙK›ØØ[™Ù]
+ÚÙ^\Ë˜œ™XZÜÕ\ÙYJNÂˆ™]\›ˆ[X™\ŠİÜ™YÚÙ^\Ë˜œ™XZÜÕ\ÙYH
+NÂˆB‚ˆ[˜İ[Ûˆİ\œ™[[Z]
 
-  async function incrementCount() {
-    const keys = storageKeys();
-    const count = await getCount();
-    const next = count + 1;
+HÂˆYˆ
+\Ú]RÙ^JH™]\›ˆ[™š[š]NÂˆÛÛœİÛÛ™šYÈHÒUWĞÓÓ‘’QÖÜÚ]RÙ^WNÂˆ™]\›ˆX]›X^
+K[X™\ŠÙ][™ÜÖØÛÛ™šYË›[Z]Ù^WHJJNÂˆB‚ˆ[˜İ[ÛˆX^œ™XZÜÊ
+HÂˆ™]\›ˆX]›X^
+KX]›Z[ŠK[X™\ŠÙ][™ÜË›X^œ™XZÜÔ\‘^HJJJNÂˆB‚ˆ[˜İ[Ûˆ\]P˜YÙJÛİ[
+HÂˆYˆ
+\Ú]RÙ^JHÂˆØİ[Y[™Ù][[Y[RY
+™ÜËXÛİ[\‹X˜YÙHŠOËœ™[[İ™J
+NÂˆ™]\›ÂˆB‚ˆ]˜YÙHHØİ[Y[™Ù][[Y[RY
+™ÜËXÛİ[\‹X˜YÙHŠNÂ‚ˆYˆ
+X˜YÙJHÂˆ˜YÙHHØİ[Y[˜Ü™X]Q[[Y[
+™]ˆŠNÂˆ˜YÙKšYH™ÜËXÛİ[\‹X˜YÙHÂˆØİ[Y[™Øİ[Y[[[Y[˜\[™Ú[
+˜YÙJNÂˆB‚ˆÛÛœİÛÛ™šYÈHÒUWĞÓÓ‘’QÖÜÚ]RÙ^WNÂˆ˜YÙK^ÛÛ[H	ØÛÛ™šYË›X™[Nˆ	ØÛİ[KÉØİ\œ™[[Z]
 
-    await chrome.storage.local.set({
-      [keys.date]: todayKey(),
-      [keys.count]: next
-    });
+_XÂˆB‚ˆ[˜İ[Ûˆ™YY›ÛİÊ
+HÂˆİÚ]Ú
+Ú]RÙ^JHÂˆØ\ÙH‚ˆ™]\›ˆË‹‹™Øİ[Y[œ]Y\TÙ[XİÜ[
+	ÛXZ[–Ü›ÛOH›XZ[ˆ—IÊWNÂˆØ\ÙHœ™Y]‚ˆ™]\›ˆË‹‹™Øİ[Y[œ]Y\TÙ[XİÜ[
+›XZ[ˆŠWNÂˆØ\ÙH[İ]X™TÚÜÈ‚ˆ™]\›ˆË‹‹™Øİ[Y[œ]Y\TÙ[XİÜ[
+]\ÚÜËÜÚÜËXÛÛZ[™\‹ÜÚÜËZ[›™\‹XÛÛZ[™\ˆŠWNÂˆØ\ÙHš[œİYÜ˜[H‚ˆ™]\›ˆË‹‹™Øİ[Y[œ]Y\TÙ[XİÜ[
+›XZ[ˆŠWNÂˆØ\ÙH™˜XÙX›ÛÚÈ‚ˆ™]\›ˆË‹‹™Øİ[Y[œ]Y\TÙ[XİÜ[
+	Ù]–Ü›ÛOH™™YY—IÊWNÂˆY˜][‚ˆ™]\›ˆ×NÂˆBˆB‚ˆ[˜İ[ÛˆÙ]™YY›ØÚÙY
+\Ğ›ØÚÙY
+HÂˆ›Üˆ
+ÛÛœİ›ÛİÙˆ™YY›ÛİÊ
+JHÂˆ›Ûİ˜Û\ÜÓ\İÙÙÛJ™ÜËY™YYX›ØÚÙY‹\Ğ›ØÚÙY
+NÂˆBˆB‚ˆ\Ş[˜È[˜İ[Ûˆ›ØÚÑ™YY
+Ûİ[
+HÂˆYˆ
+›ØÚÙY
+H™]\›ÂˆYˆ
+]ØZ]\ÔÛ›ÛŞ™Y
 
-    updateBadge(next);
-    await checkLimit(next);
-  }
+JH™]\›Â‚ˆ›ØÚÙYHYNÂˆÙ]™YY›ØÚÙY
+YJNÂˆØİ[Y[™Ù][[Y[RY
+™ÜË[[Z][İ™\›^HŠOËœ™[[İ™J
+NÂ‚ˆÛÛœİİ™\›^HHØİ[Y[˜Ü™X]Q[[Y[
+™]ˆŠNÂˆİ™\›^KšYH™ÜË[[Z][İ™\›^HÂ‚ˆÛÛœİØ\™HØİ[Y[˜Ü™X]Q[[Y[
+™]ˆŠNÂˆØ\™˜Û\ÜÓ˜[YHH™ÜËXØ\™Â‚ˆÛÛœİ]HHØİ[Y[˜Ü™X]Q[[Y[
+šˆŠNÂˆ]K^ÛÛ[H‘Z[H™YY[Z]™XXÚYÂ‚ˆÛÛœİ›ÙHHØİ[Y[˜Ü™X]Q[[Y[
+œŠNÂˆ›ÙK^ÛÛ[Bˆ[İH]™HšY]ÙY	ØÛİ[H][\ÈÛˆ	ÔÒUWĞÓÓ‘’QÖÜÚ]RÙ^WK›X™[HÙ^Kˆ
+Âˆ[İ\ˆİ\œ™[Z[H[Z]\È	Øİ\œ™[[Z]
 
-  async function isSnoozed() {
-    if (!siteKey) return false;
-    const keys = storageKeys();
-    const stored = await chrome.storage.local.get([keys.snoozeUntil]);
-    return Number(stored[keys.snoozeUntil] || 0) > Date.now();
-  }
+_K˜Â‚ˆÛÛœİ[HØİ[Y[˜Ü™X]Q[[Y[
+œŠNÂˆ[˜Û\ÜÓ˜[YHH™ÜË[]]YÂˆ[^ÛÛ[Bˆ•H™YY\ÈY[ˆ[[Û[Üœ›İÈÜˆ[[[İHÚ[™ÙHH[Z][ˆH^[œÚ[Û‹ˆÂ‚ˆØ\™˜\[™Ú[
+]JNÂˆØ\™˜\[™Ú[
+›ÙJNÂˆØ\™˜\[™Ú[
+[
+NÂ‚ˆYˆ
+Ù][™ÜË˜[İÑš]™SZ[]Pœ™XZÊHÂˆÛÛœİ\ÙYH]ØZ]œ™XZÜÕ\ÙY
 
-  function currentLimit() {
-    if (!siteKey) return Infinity;
-    const config = SITE_CONFIG[siteKey];
-    return Math.max(1, Number(settings[config.limitKey] || 1));
-  }
+NÂ‚ˆYˆ
+\ÙYX^œ™XZÜÊ
+JHÂˆÛÛœİ]ÛˆHØİ[Y[˜Ü™X]Q[[Y[
+˜]ÛˆŠNÂˆ]Û‹^ÛÛ[H[İÈH[Ü™HZ[]\È
+	ÛX^œ™XZÜÊ
+HH\ÙYHYÙ^JXÂ‚ˆ]Û‹˜Y]™[\İ[™\Š˜ÛXÚÈ‹\Ş[˜È
 
-  function updateBadge(count) {
-    let badge = document.getElementById("dss-counter-badge");
+HOˆÂˆÛÛœİÙ^\ÈHİÜ˜YÙRÙ^\Ê
+NÂˆÛÛœİİ\œ™[\ÙYH]ØZ]œ™XZÜÕ\ÙY
 
-    if (!badge) {
-      badge = document.createElement("div");
-      badge.id = "dss-counter-badge";
-      document.documentElement.appendChild(badge);
-    }
+NÂ‚ˆYˆ
+İ\œ™[\ÙYHX^œ™XZÜÊ
+JHÂˆ]Û‹™\ØX›YHYNÂˆ]Û‹^ÛÛ[H‘[Y\™Ù[˜ŞHœ™XZÜÈ\ÙY›ÜˆÙ^HÂˆ™]\›ÂˆB‚ˆ]ØZ]Ú›ÛYKœİÜ˜YÙK›ØØ[œÙ]
+ÂˆÚÙ^\ËœÛ›ÛŞ™U[[Nˆ]K››İÊ
+H
+ÈH
+ˆŒ
+ˆLˆÚÙ^\Ë˜œ™XZÜÕ\ÙYNˆİ\œ™[\ÙY
+ÈBˆJNÂ‚ˆ›ØÚÙYH˜[ÙNÂˆÙ]™YY›ØÚÙY
+˜[ÙJNÂˆİ™\›^Kœ™[[İ™J
+NÂ‚ˆÙ][Y[İ]
 
-    const config = SITE_CONFIG[siteKey];
-    badge.textContent = `${config.label}: ${count}/${currentLimit()}`;
-  }
 
-  function feedRoots() {
-    switch (siteKey) {
-      case "x":
-        return [...document.querySelectorAll('main[role="main"]')];
-      case "reddit":
-        return [...document.querySelectorAll("main")];
-      case "youtubeShorts":
-        return [...document.querySelectorAll("ytd-shorts, #shorts-container")];
-      case "instagram":
-        return [...document.querySelectorAll("main")];
-      case "facebook":
-        return [...document.querySelectorAll('div[role="feed"]')];
-      default:
-        return [];
-    }
-  }
+HOˆÂˆÚXÚÓ[Z]
 
-  function setFeedBlocked(isBlocked) {
-    for (const root of feedRoots()) {
-      root.classList.toggle("dss-feed-blocked", isBlocked);
-    }
-  }
+K˜Ø]Ú
 
-  async function blockFeed(count) {
-    if (blocked) return;
-    if (await isSnoozed()) return;
 
-    blocked = true;
-    setFeedBlocked(true);
+HOˆßJNÂˆKH
+ˆŒ
+ˆL
+ÈL
+NÂˆJNÂ‚ˆØ\™˜\[™Ú[
+]ÛŠNÂˆH[ÙHÂˆÛÛœİ\ÙYY\ÜØYÙHHØİ[Y[˜Ü™X]Q[[Y[
+œŠNÂˆ\ÙYY\ÜØYÙK˜Û\ÜÓ˜[YHH™ÜË[]]YÂˆ\ÙYY\ÜØYÙK^ÛÛ[H•Ù^IÜÈ[Y\™Ù[˜ŞHœ™XZÈ[İØ[˜ÙH\È[™XYH™Y[ˆ\ÙYˆÂˆØ\™˜\[™Ú[
+\ÙYY\ÜØYÙJNÂˆBˆB‚ˆİ™\›^K˜\[™Ú[
+Ø\™
+NÂˆØİ[Y[™Øİ[Y[[[Y[˜\[™Ú[
+İ™\›^JNÂˆB‚ˆ\Ş[˜È[˜İ[ÛˆÚXÚÓ[Z]
+›Ü˜ÙYÛİ[H[
+HÂˆYˆ
+\Ù][™ÜË™[˜X›Y\Ú]RÙ^JHÂˆÙ]™YY›ØÚÙY
+˜[ÙJNÂˆØİ[Y[™Ù][[Y[RY
+™ÜË[[Z][İ™\›^HŠOËœ™[[İ™J
+NÂˆ›ØÚÙYH˜[ÙNÂˆ\]P˜YÙJ
+NÂˆ™]\›ÂˆB‚ˆYˆ
+]ØZ]\ÔÛ›ÛŞ™Y
 
-    const overlay = document.createElement("div");
-    overlay.id = "dss-limit-overlay";
+JHÂˆÙ]™YY›ØÚÙY
+˜[ÙJNÂˆØİ[Y[™Ù][[Y[RY
+™ÜË[[Z][İ™\›^HŠOËœ™[[İ™J
+NÂˆ›ØÚÙYH˜[ÙNÂˆ™]\›ÂˆB‚ˆÛÛœİÛİ[H›Ü˜ÙYÛİ[ÏÈ]ØZ]Ù]Ûİ[
 
-    const card = document.createElement("div");
-    card.className = "dss-card";
+NÂˆ\]P˜YÙJÛİ[
+NÂ‚ˆYˆ
+Ûİ[Hİ\œ™[[Z]
 
-    const title = document.createElement("h2");
-    title.textContent = "Daily feed limit reached";
+JHÂˆ]ØZ]›ØÚÑ™YY
+Ûİ[
+NÂˆH[ÙHÂˆÙ]™YY›ØÚÙY
+˜[ÙJNÂˆØİ[Y[™Ù][[Y[RY
+™ÜË[[Z][İ™\›^HŠOËœ™[[İ™J
+NÂˆ›ØÚÙYH˜[ÙNÂˆBˆB‚ˆ[˜İ[Ûˆ[š\]YR][\Ê
+HÂˆYˆ
+\Ú]RÙ^JH™]\›ˆ×NÂˆÛÛœİÙ[XİÜœÈHÒUWĞÓÓ‘’QÖÜÚ]RÙ^WKœÙ[XİÜœÎÂˆ™]\›ˆË‹‹›™]ÈÙ]
+Øİ[Y[œ]Y\TÙ[XİÜ[
+Ù[XİÜœËš›Ú[Š‹ŠJJWNÂˆB‚ˆ[˜İ[Ûˆ›Ü›X[^™U^
+˜[YJHÂˆ™]\›ˆİš[™Ê˜[YHˆŠKœ™\XÙJ×ÊËÙËˆŠKš[J
+KÓİÙ\Ø\ÙJ
+NÂˆB‚ˆ[˜İ[Ûˆ\Ú^
+˜[YJHÂˆ]\ÚHŒMŒLÍŒŒNÂˆÛÛœİ^Hİš[™Ê˜[YHˆŠNÂ‚ˆ›Üˆ
+]HHÈH^›[™İÈJÊÊHÂˆ\ÚH^˜Ú\ÛÙP]
+JNÂˆ\ÚHX]š[][
+\ÚMÍÍÍŒNJNÂˆB‚ˆ™]\›ˆ
+\Úˆ
+KÔİš[™ÊMŠNÂˆB‚ˆ[˜İ[Ûˆ™Y“X]Ú[™Ê][K\İÊHÂˆ›Üˆ
+ÛÛœİ[šÈÙˆ][Kœ]Y\TÙ[XİÜ[
+˜VÚ™Y—HŠJHÂˆÛÛœİ™YˆH[šË™Ù]]šX]Jš™YˆŠHˆÂˆYˆ
+\İËœÛÛYJ\İOˆ\İ
+™YŠJJH™]\›ˆ™YÂˆBˆ™]\›ˆˆÂˆB‚ˆ[˜İ[Ûˆš[™Ù\œš[›Ü’][J][JHÂˆYˆ
+\Ú]RÙ^HZ][JH™]\›ˆˆÂ‚ˆYˆ
+Ú]RÙ^HOOHŠHÂˆÛÛœİ™YˆH™Y“X]Ú[™Ê][KÂˆ™YˆOˆ×Üİ]\××
+ËË\İ
+™YŠBˆJNÂˆYˆ
+™YŠH™]\›ˆ‰Ú™Y‹›X]Ú
+×Üİ]\×Ê
+ÊKÊOË–ÌWH™YŸXÂˆB‚ˆYˆ
+Ú]RÙ^HOOHœ™Y]ŠHÂˆÛÛœİ˜]]™RYBˆ][K™Ù]]šX]J[™ÚYŠHˆ][K™Ù]]šX]JšYŠHˆ][K™Ù]]šX]Jœ\›X[[šÈŠNÂ‚ˆYˆ
+˜]]™RY
+H™]\›ˆ™Y]‰Û˜]]™RYXÂ‚ˆÛÛœİ™YˆH™Y“X]Ú[™Ê][KÂˆ™YˆOˆ™Y‹š[˜ÛY\Ê‹ØÛÛ[Y[ËÈŠBˆJNÂˆYˆ
+™YŠH™]\›ˆ™Y]‰Ú™Y‹œÜ]
+ÈŠVÌ_XÂˆB‚ˆYˆ
+Ú]RÙ^HOOH[İ]X™TÚÜÈŠHÂˆÛÛœİšY[ÒYBˆ][K™Ù]]šX]JšY[ËZYŠHˆ][K™Ù]]šX]J™]K]šY[ËZYŠHˆ][Kœ]Y\TÙ[XİÜŠ–İšY[ËZYHŠOË™Ù]]šX]JšY[ËZYŠNÂ‚ˆYˆ
+šY[ÒY
+H™]\›ˆ]‰İšY[ÒYXÂ‚ˆÛÛœİ™YˆH™Y“X]Ú[™Ê][KÂˆ™YˆOˆ™Y‹œİ\ÕÚ]
+‹ÜÚÜËÈŠBˆJNÂ‚ˆYˆ
+™YŠH™]\›ˆ]‰Ú™Y‹œÜ]
+‹ÜÚÜËÈŠVÌWOËœÜ]
+ÖÏÈ×KÊVÌH™YŸXÂ‚ˆÛÛœİ›İ]SX]ÚHØØ][Û‹œ]˜[YK›X]Ú
+×—ÜÚÜ×Ê×‹ÏÈ×JÊKÊNÂˆYˆ
+›İ]SX]ÚË–ÌWJH™]\›ˆ]‰Ü›İ]SX]ÚÌW_XÂˆB‚ˆYˆ
+Ú]RÙ^HOOHš[œİYÜ˜[HŠHÂˆÛÛœİ™YˆH™Y“X]Ú[™Ê][KÂˆ™YˆOˆ×—Ê™Y[
+WÖ×‹×JËË\İ
+™YŠBˆJNÂˆYˆ
+™YŠH™]\›ˆYÎ‰Ú™Y‹œÜ]
+ÈŠVÌ_XÂˆB‚ˆYˆ
+Ú]RÙ^HOOH™˜XÙX›ÛÚÈŠHÂˆÛÛœİ™YˆH™Y“X]Ú[™Ê][KÂˆ™YˆOˆ™Y‹š[˜ÛY\ÊœİÜWÙ˜šYHŠKˆ™YˆOˆ™Y‹š[˜ÛY\Ê‹ÜÜİËÈŠKˆ™YˆOˆ™Y‹š[˜ÛY\Ê‹Ü™Y[ÈŠBˆJNÂˆYˆ
+™YŠH™]\›ˆ˜‰Ú™Y‹œÜ]
+‰ˆŠVÌ_XÂˆB‚ˆÛÛœİ^H›Ü›X[^™U^
+][Kš[›™\•^][K^ÛÛ[ˆŠKœÛXÙJÌ
+NÂˆYˆ
+]^
+H™]\›ˆˆÂˆ™]\›ˆ	ÜÚ]RÙ^_N™˜[˜XÚÎ‰Ú\Ú^
+^
+_XÂˆB‚ˆ\Ş[˜È[˜İ[Ûˆ›ØÙ\ÜÕš\ÚX›R][J][JHÂˆYˆ
+\Ú]RÙ^H\Ù][™ÜË™[˜X›Y›ØÚÙY
+H™]\›Â‚ˆÛÛœİš[™Ù\œš[Hš[™Ù\œš[›Ü’][J][JNÂ‚ˆYˆ
+Yš[™Ù\œš[
+HÂˆYˆ
+˜[˜XÚÔÙY[“›Ù\Ëš\Ê][JJH™]\›Âˆ˜[˜XÚÔÙY[“›Ù\Ë˜Y
+][JNÂˆ]ØZ][˜Ü™[Y[Ûİ[
 
-    const body = document.createElement("p");
-    body.textContent =
-      `You have viewed ${count} items on ${SITE_CONFIG[siteKey].label} today. ` +
-      `Your current daily limit is ${currentLimit()}.`;
+NÂˆ™]\›ÂˆB‚ˆYˆ
+ÙY[‘š[™Ù\œš[Ëš\Êš[™Ù\œš[
+JH™]\›Â‚ˆÙY[‘š[™Ù\œš[Ë˜Y
+š[™Ù\œš[
+NÂˆ]ØZ]\œÚ\İÙY[‘š[™Ù\œš[Ê
+NÂˆ]ØZ][˜Ü™[Y[Ûİ[
 
-    const hint = document.createElement("p");
-    hint.className = "dss-muted";
-    hint.textContent =
-      "The feed is hidden until tomorrow or until you change the limit in the extension.";
+NÂˆB‚ˆ[˜İ[ÛˆÜ™X]R[\œÙXİ[Û“ØœÙ\™\Š
+HÂˆ[\œÙXİ[Û“ØœÙ\™\Ë™\ØÛÛ›™Xİ
 
-    card.appendChild(title);
-    card.appendChild(body);
-    card.appendChild(hint);
+NÂ‚ˆ[\œÙXİ[Û“ØœÙ\™\ˆH™]È[\œÙXİ[Û“ØœÙ\™\Š[šY\ÈOˆÂˆ›Üˆ
+ÛÛœİ[HÙˆ[šY\ÊHÂˆYˆ
+Y[Kš\Ò[\œÙXİ[™È[Kš[\œÙXİ[Û”˜][ÈŠHÛÛ[YNÂ‚ˆ[\œÙXİ[Û“ØœÙ\™\‹[›ØœÙ\™J[K\™Ù]
+NÂ‚ˆÛİ[]Y]YHHÛİ[]Y]YBˆ[Š
 
-    if (settings.allowFiveMinuteBreak) {
-      const button = document.createElement("button");
-      button.textContent = "Allow 5 more minutes";
-      button.addEventListener("click", async () => {
-        const keys = storageKeys();
-        await chrome.storage.local.set({
-          [keys.snoozeUntil]: Date.now() + 5 * 60 * 1000
-        });
-        blocked = false;
-        setFeedBlocked(false);
-        overlay.remove();
+HOˆ›ØÙ\ÜÕš\ÚX›R][J[K\™Ù]
+JBˆ˜Ø]Ú
 
-        setTimeout(() => {
-          checkLimit().catch(() => {});
-        }, 5 * 60 * 1000 + 500);
-      });
-      card.appendChild(button);
-    }
 
-    overlay.appendChild(card);
-    document.documentElement.appendChild(overlay);
-  }
+HOˆßJNÂˆBˆKÂˆ™\ÚÛˆÌ—BˆJNÂˆB‚ˆ[˜İ[ÛˆØœÙ\™R][\Ê
+HÂˆYˆ
+\Ú]RÙ^H\Ù][™ÜË™[˜X›Y
+H™]\›ÂˆYˆ
+Z[\œÙXİ[Û“ØœÙ\™\ŠHÜ™X]R[\œÙXİ[Û“ØœÙ\™\Š
+NÂ‚ˆ›Üˆ
+ÛÛœİ][HÙˆ[š\]YR][\Ê
+JHÂˆYˆ
+ØœÙ\™Y›Ù\Ëš\Ê][JJHÛÛ[YNÂˆØœÙ\™Y›Ù\Ë˜Y
+][JNÂˆ[\œÙXİ[Û“ØœÙ\™\‹›ØœÙ\™J][JNÂˆBˆB‚ˆ[˜İ[ÛˆØÚY[S[Z]ÚXÚÊ
+HÂˆÛX\•[Y[İ]
+[Z][Y\ŠNÂˆ[Z][Y\ˆHÙ][Y[İ]
 
-  async function checkLimit(forcedCount = null) {
-    if (!settings.enabled || !siteKey) {
-      setFeedBlocked(false);
-      document.getElementById("dss-limit-overlay")?.remove();
-      blocked = false;
-      return;
-    }
 
-    if (await isSnoozed()) return;
+HOˆÂˆÚXÚÓ[Z]
 
-    const count = forcedCount ?? await getCount();
-    updateBadge(count);
+K˜Ø]Ú
 
-    if (count >= currentLimit()) {
-      await blockFeed(count);
-    }
-  }
 
-  function uniqueItems() {
-    if (!siteKey) return [];
-    const selectors = SITE_CONFIG[siteKey].selectors;
-    return [...document.querySelectorAll(selectors.join(","))];
-  }
+HOˆßJNÂˆKÍL
+NÂˆB‚ˆ\Ş[˜È[˜İ[Ûˆ[™T›İ]PÚ[™ÙJ
+HÂˆÛÛœİ™^Ú]HH]XİÚ]J
+NÂ‚ˆYˆ
+™^Ú]HOOHÚ]RÙ^JHÂˆÚ]RÙ^HH™^Ú]NÂˆİ]U™\œÚ[Ûˆ
+ÏHNÂˆ›ØÚÙYH˜[ÙNÂˆÙ]™YY›ØÚÙY
+˜[ÙJNÂˆØİ[Y[™Ù][[Y[RY
+™ÜË[[Z][İ™\›^HŠOËœ™[[İ™J
+NÂˆ[\œÙXİ[Û“ØœÙ\™\Ë™\ØÛÛ›™Xİ
 
-  function observeItems() {
-    if (!intersectionObserver) {
-      intersectionObserver = new IntersectionObserver(entries => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          if (entry.intersectionRatio < 0.6) continue;
-          if (seen.has(entry.target)) continue;
+NÂˆ[\œÙXİ[Û“ØœÙ\™\ˆH[ÂˆÙY[‘š[™Ù\œš[ÈH™]ÈÙ]
 
-          seen.add(entry.target);
-          intersectionObserver.unobserve(entry.target);
-          incrementCount().catch(() => {});
-        }
-      }, {
-        threshold: [0.6]
-      });
-    }
+NÂ‚ˆYˆ
+Ú]RÙ^JHÂˆÛÛœİ™\œÚ[ÛˆHİ]U™\œÚ[ÛÂˆ]ØZ]ØYÙY[‘š[™Ù\œš[Ê™\œÚ[ÛŠNÂˆYˆ
+™\œÚ[ÛˆOOHİ]U™\œÚ[ÛŠH™]\›ÂˆBˆB‚ˆYˆ
+\Ú]RÙ^JHÂˆ\]P˜YÙJ
+NÂˆ™]\›ÂˆB‚ˆ\]P˜YÙJ]ØZ]Ù]Ûİ[
 
-    for (const item of uniqueItems()) {
-      if (!seen.has(item)) intersectionObserver.observe(item);
-    }
-  }
+JNÂˆØœÙ\™R][\Ê
+NÂˆØÚY[S[Z]ÚXÚÊ
+NÂˆB‚ˆ[˜İ[Ûˆİ\ØœÙ\™\œÊ
+HÂˆØœÙ\™\Ë™\ØÛÛ›™Xİ
 
-  function startObservers() {
-    observeItems();
+NÂ‚ˆØœÙ\™\ˆH™]È]]][Û“ØœÙ\™\Š
 
-    observer = new MutationObserver(() => {
-      siteKey = detectSite();
-      observeItems();
-      checkLimit().catch(() => {});
-    });
+HOˆÂˆÛX\•[Y[İ]
+]]][Û•[Y\ŠNÂˆ]]][Û•[Y\ˆHÙ][Y[İ]
 
-    observer.observe(document.documentElement, {
-      subtree: true,
-      childList: true
-    });
-  }
 
-  async function loadSettings() {
-    const stored = await chrome.storage.sync.get(DEFAULTS);
-    settings = { ...DEFAULTS, ...stored };
-    siteKey = detectSite();
+HOˆÂˆ[™T›İ]PÚ[™ÙJ
+K˜Ø]Ú
 
-    if (!siteKey) return;
 
-    updateBadge(await getCount());
-    await checkLimit();
-    startObservers();
-  }
+HOˆßJNÂˆØœÙ\™R][\Ê
+NÂˆKMŒ
+NÂˆJNÂ‚ˆØœÙ\™\‹›ØœÙ\™JØİ[Y[™Øİ[Y[[[Y[ÂˆİX™YNˆYKˆÚ[\İˆYBˆJNÂˆB‚ˆ\Ş[˜È[˜İ[ÛˆØYÙ][™ÜÊ
+HÂˆÛÛœİİÜ™YH]ØZ]Ú›ÛYKœİÜ˜YÙKœŞ[˜Ë™Ù]
+QUSÊNÂˆÙ][™ÜÈHÈ‹‹‘QUSË‹‹œİÜ™YNÂ‚ˆİ\ØœÙ\™\œÊ
+NÂˆ]ØZ][™T›İ]PÚ[™ÙJ
+NÂˆB‚ˆÚ›ÛYKœİÜ˜YÙK›ÛÚ[™ÙY˜Y\İ[™\Š
+Ú[™Ù\Ë\™XJHOˆÂˆYˆ
+\™XHOOHœŞ[˜ÈŠH™]\›Â‚ˆ›Üˆ
+ÛÛœİÚÙ^KÚ[™ÙWHÙˆØš™Xİ™[šY\ÊÚ[™Ù\ÊJHÂˆÙ][™ÜÖÚÙ^WHHÚ[™ÙK›™]Õ˜[YNÂˆB‚ˆYˆ
+\Ù][™ÜË™[˜X›Y
+HÂˆ[\œÙXİ[Û“ØœÙ\™\Ë™\ØÛÛ›™Xİ
 
-  chrome.storage.onChanged.addListener((changes, area) => {
-    if (area !== "sync") return;
+NÂˆ[\œÙXİ[Û“ØœÙ\™\ˆH[ÂˆH[ÙHÂˆØœÙ\™R][\Ê
+NÂˆB‚ˆÚXÚÓ[Z]
 
-    for (const [key, change] of Object.entries(changes)) {
-      settings[key] = change.newValue;
-    }
+K˜Ø]Ú
 
-    checkLimit().catch(() => {});
-  });
 
-  window.addEventListener("popstate", () => {
-    siteKey = detectSite();
-    setTimeout(() => {
-      observeItems();
-      checkLimit().catch(() => {});
-    }, 300);
-  });
+HOˆßJNÂˆJNÂ‚ˆÚ[™İË˜Y]™[\İ[™\ŠœÜİ]H‹
 
-  loadSettings().catch(() => {});
-})();
+HOˆÂˆÙ][Y[İ]
 
+
+HOˆ[™T›İ]PÚ[™ÙJ
+K˜Ø]Ú
+
+
+HOˆßJKL
+NÂˆJNÂ‚ˆÚ[™İË˜Y]™[\İ[™\Š][˜]šYØ]KYš[š\Ú‹
+
+HOˆÂˆÙ][Y[İ]
+
+
+HOˆ[™T›İ]PÚ[™ÙJ
+K˜Ø]Ú
+
+
+HOˆßJK
+NÂˆÙ][Y[İ]
+
+
+HOˆ[™T›İ]PÚ[™ÙJ
+K˜Ø]Ú
+
+
+HOˆßJKL
+NÂˆJNÂ‚ˆØYÙ][™ÜÊ
+K˜Ø]Ú
+
+
+HOˆßJNÂŸJJ
+NÂ‚
