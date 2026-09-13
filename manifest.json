@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "Doomscroll Stopper",
+  "version": "1.0.0",
+  "description": "Set daily content limits for social feeds and stop endless scrolling when your limit is reached.",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://x.com/*",
+    "https://twitter.com/*",
+    "https://www.reddit.com/*",
+    "https://www.youtube.com/*",
+    "https://www.instagram.com/*",
+    "https://www.facebook.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Doomscroll Stopper"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://x.com/*",
+        "https://twitter.com/*",
+        "https://www.reddit.com/*",
+        "https://www.youtube.com/*",
+        "https://www.instagram.com/*",
+        "https://www.facebook.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "styles.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

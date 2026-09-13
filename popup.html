@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Doomscroll Stopper</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main>
+    <h1>Doomscroll Stopper</h1>
+    <p class="subtitle">Set a daily feed limit before the feed sets your day.</p>
+
+    <label class="master">
+      <span>
+        <strong>Enable protection</strong>
+        <small>Turn daily feed limits on or off.</small>
+      </span>
+      <input id="enabled" type="checkbox">
+    </label>
+
+    <section>
+      <label class="limit-row">
+        <span><strong>X</strong><small>Posts per day</small></span>
+        <input id="xLimit" type="number" min="1" max="5000" value="100">
+      </label>
+
+      <label class="limit-row">
+        <span><strong>Reddit</strong><small>Posts per day</small></span>
+        <input id="redditLimit" type="number" min="1" max="5000" value="80">
+      </label>
+
+      <label class="limit-row">
+        <span><strong>YouTube Shorts</strong><small>Shorts per day</small></span>
+        <input id="youtubeShortsLimit" type="number" min="1" max="5000" value="30">
+      </label>
+
+      <label class="limit-row">
+        <span><strong>Instagram</strong><small>Feed items per day</small></span>
+        <input id="instagramLimit" type="number" min="1" max="5000" value="80">
+      </label>
+
+      <label class="limit-row">
+        <span><strong>Facebook</strong><small>Feed items per day</small></span>
+        <input id="facebookLimit" type="number" min="1" max="5000" value="80">
+      </label>
+    </section>
+
+    <label class="master secondary">
+      <span>
+        <strong>5-minute emergency break</strong>
+        <small>Show a one-click temporary override after the daily limit is reached.</small>
+      </span>
+      <input id="allowFiveMinuteBreak" type="checkbox">
+    </label>
+
+    <div class="actions">
+      <button id="balancedPreset" class="primary">Balanced preset</button>
+      <button id="strictPreset">Strict preset</button>
+    </div>
+
+    <button id="resetToday" class="reset">Reset today's counters</button>
+
+    <p id="status" class="status">Settings save automatically.</p>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>
+
