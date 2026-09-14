@@ -2,6 +2,12 @@
 
 A privacy-first Chrome extension that sets daily content-view limits for social feeds.
 
+## v1.2.0
+
+- Added a live **Today's Usage** dashboard for all supported feeds.
+- Shows current count, daily limit, progress and emergency-break usage per platform.
+- Keeps the stable fingerprint counting and SPA-aware tracking introduced in v1.1.0.
+
 ## v1.1.0
 
 - Replaced DOM-node-only counting with stable post/video fingerprints where available.
